@@ -89,15 +89,14 @@
     .sum-lbl { font-size: 11px; color: #64748b; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
     .sum-val { font-size: 15px; color: #0f172a; font-weight: 700; }
 
-    /* Calculation Guide Section */
     .calc-guide {
       background: #f1f5f9; border-radius: 14px; padding: 16px;
       margin: 0 0 22px; text-align: left; border: 1px solid #e2e8f0;
     }
     .calc-title { font-size: 14px; font-weight: 700; color: #334155; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
     .calc-step {
-      padding: 8px 10px; margin-bottom: 6px; font-size: 14px; color: #475569;      background: white; border-radius: 8px; border: 1px solid #e2e8f0;
-      display: flex; align-items: center; gap: 8px;
+      padding: 8px 10px; margin-bottom: 6px; font-size: 14px; color: #475569;
+      background: white; border-radius: 8px; border: 1px solid #e2e8f0;      display: flex; align-items: center; gap: 8px;
     }
     .calc-step .num {
       background: #6366f1; color: white; width: 22px; height: 22px;
@@ -133,69 +132,68 @@
 
     <!-- Step 1 -->
     <div class="card" id="s1">
-      <div class="card-title">⚖️ बेस वजन</div>
+      <div class="card-title">⚖️ वजन डालो</div>
       <label>वजन</label>
       <input type="number" id="w1" placeholder="" oninput="v1()">
       <div class="unit-group">
         <button class="unit-btn active" onclick="u(this,'g')">ग्राम</button>
         <button class="unit-btn" onclick="u(this,'kg')">किलो</button>
       </div>
-      <div class="error" id="e1">⚠️ वजन डालें</div>
+      <div class="error" id="e1">⚠️ वजन डालो</div>
       <button class="btn" id="b1" onclick="n2()" disabled>आगे ➡</button>
     </div>
 
     <!-- Step 2 -->
-    <div class="card hidden" id="s2">      <div class="card-title">💰 कीमत</div>
-      <label>कीमत (₹)</label>
+    <div class="card hidden" id="s2">
+      <div class="card-title">💰 दाम बताओ</div>      <label>रेट (₹ में)</label>
       <input type="number" id="p1" placeholder="" oninput="v2()">
-      <div class="error" id="e2">⚠️ कीमत डालें</div>
+      <div class="error" id="e2">⚠️ दाम डालो</div>
       <button class="btn" id="b2" onclick="n3()" disabled>आगे ➡</button>
-      <button class="btn secondary" onclick="rst()">🔄 शुरू से</button>
+      <button class="btn secondary" onclick="rst()">🔄 फिर से शुरू</button>
     </div>
 
     <!-- Step 3 -->
     <div class="card hidden" id="s3">
-      <div class="card-title">📦 कितना लेना है?</div>
+      <div class="card-title">📦 अब कितना चाहिए?</div>
       <label>वजन</label>
       <input type="number" id="w2" placeholder="" oninput="v3()">
       <div class="unit-group">
         <button class="unit-btn active" onclick="u(this,'g')">ग्राम</button>
         <button class="unit-btn" onclick="u(this,'kg')">किलो</button>
       </div>
-      <div class="error" id="e3">⚠️ वजन डालें</div>
-      <button class="btn" id="b3" onclick="calc()" disabled>💰 हिसाब करें</button>
-      <button class="btn secondary" onclick="rst()">🔄 नया</button>
+      <div class="error" id="e3">⚠️ वजन डालो</div>
+      <button class="btn" id="b3" onclick="calc()" disabled>💰 हिसाब लगाओ</button>
+      <button class="btn secondary" onclick="rst()">🔄 नया हिसाब</button>
     </div>
 
     <!-- Result -->
     <div class="card result hidden" id="res">
-      <div class="res-label">💳 आपको पे करना होगा</div>
+      <div class="res-label">💳 कुल देने हैं</div>
       <div class="result-amount" id="amt">₹0</div>
       
       <div class="summary-card">
-        <div class="sum-item"><div class="sum-lbl">बेस वजन</div><div class="sum-val" id="sv1">-</div></div>
-        <div class="sum-item"><div class="sum-lbl">कीमत</div><div class="sum-val" id="sv2">-</div></div>
-        <div class="sum-item"><div class="sum-lbl">वांछित वजन</div><div class="sum-val" id="sv3">-</div></div>
+        <div class="sum-item"><div class="sum-lbl">पहला वजन</div><div class="sum-val" id="sv1">-</div></div>
+        <div class="sum-item"><div class="sum-lbl">दाम</div><div class="sum-val" id="sv2">-</div></div>
+        <div class="sum-item"><div class="sum-lbl">नया वजन</div><div class="sum-val" id="sv3">-</div></div>
       </div>
 
-      <!-- Calculation Guide -->
       <div class="calc-guide">
-        <div class="calc-title">📐 हिसाब कैसे आया?</div>
+        <div class="calc-title">📐 हिसाब कैसे बना?</div>
         <div class="calc-step" id="c1"></div>
         <div class="calc-step" id="c2"></div>
         <div class="calc-step" id="c3"></div>
         <div class="calc-step final" id="c4"></div>
       </div>
 
-      <button class="btn" style="background:#10b981" onclick="cp()">📋 कॉपी</button>
-      <button class="btn secondary" onclick="rst()">🔄 नया</button>
+      <button class="btn" style="background:#10b981" onclick="cp()">📋 कॉपी करो</button>
+      <button class="btn secondary" onclick="rst()">🔄 नया शुरू करो</button>
     </div>
 
-    <footer>Powered by <span class="brand">व्यूनिल</span> <span class="heart">❤️</span></footer>
+    <footer>Powered by <span class="brand">Piyuneel</span> <span class="heart">❤️</span></footer>
   </div>
 
-  <script>    let d = { bu:'g', bw:0, price:0, tu:'g', tw:0 };
-
+  <script>
+    let d = { bu:'g', bw:0, price:0, tu:'g', tw:0 };
     function u(btn, val) {
       btn.parentElement.querySelectorAll('.unit-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
@@ -239,16 +237,14 @@
       const targetGrams = d.tu === 'kg' ? d.tw * 1000 : d.tw;
       const amt = Math.round(targetGrams * pricePerGram);
 
-      // Main Amount
       document.getElementById('amt').textContent = '₹' + amt.toLocaleString('en-IN');
       document.getElementById('sv1').textContent = `${d.bw} ${d.bu === 'g' ? 'ग्राम' : 'किलो'}`;
       document.getElementById('sv2').textContent = '₹' + d.price.toLocaleString('en-IN');
       document.getElementById('sv3').textContent = `${d.tw} ${d.tu === 'g' ? 'ग्राम' : 'किलो'}`;
-      // Step-by-Step Guide
-      document.getElementById('c1').innerHTML = `<span class="num">1</span> बेस: <strong>${d.bw} ${d.bu}</strong> = <strong>₹${d.price.toLocaleString('en-IN')}</strong>`;
-      document.getElementById('c2').innerHTML = `<span class="num">2</span> 1 ग्राम का रेट: ₹${d.price} ÷ ${baseGrams}g = <strong>₹${pricePerGram.toFixed(4)}</strong>/g`;
-      document.getElementById('c3').innerHTML = `<span class="num">3</span> वांछित वजन: <strong>${d.tw} ${d.tu}</strong> × ₹${pricePerGram.toFixed(4)}`;
-      document.getElementById('c4').innerHTML = `<span class="num">✓</span> फाइनल अमाउंट: <strong>₹${amt.toLocaleString('en-IN')}</strong>`;
+
+      document.getElementById('c1').innerHTML = `<span class="num">1</span> पहले: <strong>${d.bw} ${d.bu}</strong> का दाम <strong>₹${d.price.toLocaleString('en-IN')}</strong> था`;
+      document.getElementById('c2').innerHTML = `<span class="num">2</span> 1 ग्राम का रेट: ₹${d.price} ÷ ${baseGrams}g = <strong>₹${pricePerGram.toFixed(4)}</strong>/g`;      document.getElementById('c3').innerHTML = `<span class="num">3</span> अब ${d.tw} ${d.tu} × ₹${pricePerGram.toFixed(4)}`;
+      document.getElementById('c4').innerHTML = `<span class="num">✓</span> कुल: <strong>₹${amt.toLocaleString('en-IN')}</strong> देने हैं`;
 
       document.getElementById('s3').classList.add('hidden');
       document.getElementById('res').classList.remove('hidden');
@@ -270,7 +266,7 @@
 
     function cp() {
       navigator.clipboard.writeText(document.getElementById('amt').textContent);
-      alert('✅ रिजल्ट कॉपी हो गया!');
+      alert('✅ कॉपी हो गया!');
     }
   </script>
 </body>
