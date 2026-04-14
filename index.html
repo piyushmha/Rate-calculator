@@ -3,271 +3,1172 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RatePro</title>
+  <title>रेट प्रो - हिसाब किताब</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700;800&display=swap');
+    
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    :root {
+      --primary: #0891b2;
+      --primary-dark: #0e7490;
+      --primary-light: #22d3ee;
+      --secondary: #7c3aed;
+      --accent: #f59e0b;
+      --success: #10b981;
+      --bg: #f0f9ff;
+      --card: #ffffff;
+      --text: #1e293b;
+      --text-light: #64748b;
+      --border: #e2e8f0;
+    }
+    
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: linear-gradient(135deg, #f8fafc 0%, #eef2ff 100%);
-      color: #1e293b;
-      padding: 20px 16px 40px;
-      line-height: 1.5;
+      font-family: 'Noto Sans Devanagari', Arial, sans-serif;
+      background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 50%, #faf5ff 100%);
+      color: var(--text);
+      padding: 16px;
       min-height: 100vh;
-    }
-    .container { max-width: 480px; margin: 0 auto; }
-    
-    header { text-align: center; margin-bottom: 24px; }
-    .logo {
-      display: inline-flex; align-items: center; gap: 10px;
-      background: linear-gradient(135deg, #6366f1, #8b5cf6);
-      padding: 12px 20px; border-radius: 16px; color: white;
-      font-weight: 700; font-size: 20px;
-      box-shadow: 0 6px 18px rgba(99,102,241,0.3);
+      font-size: 18px;
+      line-height: 1.6;
     }
     
-    .steps { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; }
-    .step-dot { width: 10px; height: 10px; border-radius: 50%; background: #cbd5e1; transition: all 0.3s; }
-    .step-dot.active { background: #6366f1; transform: scale(1.3); }
-    .step-dot.done { background: #10b981; }
-
+    .container { 
+      max-width: 600px; 
+      margin: 0 auto; 
+    }
+    
+    /* Header */
+    header { 
+      text-align: center; 
+      margin-bottom: 24px; 
+      padding: 24px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(8,145,178,0.25);
+    }
+    .logo {      font-size: 36px;
+      font-weight: 800;
+      color: white;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.15);
+    }
+    
+    .subtitle {
+      font-size: 18px;
+      color: #e0f2fe;
+      margin-top: 6px;
+      font-weight: 600;
+    }
+    
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    
+    .tab-btn {
+      flex: 1;
+      padding: 18px 20px;
+      border: 3px solid var(--primary);
+      border-radius: 14px;
+      background: white;
+      color: var(--primary);
+      font-size: 20px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: inherit;
+    }
+    
+    .tab-btn.active {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      box-shadow: 0 4px 15px rgba(8,145,178,0.35);
+      border-color: transparent;
+    }
+    
+    /* Cards */
     .card {
-      background: white; border-radius: 18px; padding: 24px;
-      margin-bottom: 18px; box-shadow: 0 6px 20px rgba(0,0,0,0.06);
-      border: 1px solid #e2e8f0; animation: fadeUp 0.4s ease both;
+      background: var(--card);
+      border-radius: 20px;
+      padding: 28px;
+      margin-bottom: 20px;
+      border: 2px solid var(--border);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+    }    
+    .card-title {
+      font-size: 26px;
+      font-weight: 700;
+      margin-bottom: 24px;
+      color: var(--primary-dark);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      padding-bottom: 16px;
+      border-bottom: 3px solid var(--bg);
     }
-    @keyframes fadeUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-
-    .card-title { font-size: 18px; font-weight: 700; margin-bottom: 18px; display: flex; align-items: center; gap: 8px; padding-bottom: 12px; border-bottom: 1px dashed #e2e8f0; }
-
-    label { display: block; font-size: 14px; font-weight: 600; color: #475569; margin-bottom: 8px; }
-    input[type="number"] {
-      width: 100%; padding: 14px 16px; font-size: 18px; font-weight: 600;
-      border: 2px solid #e2e8f0; border-radius: 12px; outline: none; background: #fafbfe;
-      transition: border-color 0.2s, box-shadow 0.2s;
+    
+    .card-title .icon {
+      font-size: 32px;
     }
-    input[type="number"]:focus { border-color: #6366f1; background: white; box-shadow: 0 0 0 3px rgba(99,102,241,0.15); }
-    input::placeholder { color: #cbd5e1; }
-    .unit-group { display: flex; gap: 10px; margin-top: 8px; }
+    
+    /* Steps */
+    .steps {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+    }
+    
+    .step-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .step-dot {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--bg);
+      border: 3px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-light);
+      transition: all 0.3s;
+    }    
+    .step-dot.active {      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border-color: var(--primary);
+      color: white;
+      box-shadow: 0 4px 12px rgba(8,145,178,0.35);
+      transform: scale(1.1);
+    }
+    
+    .step-dot.done {
+      background: var(--success);
+      border-color: var(--success);
+      color: white;
+    }
+    
+    .step-line {
+      width: 40px;
+      height: 3px;
+      background: var(--border);
+      border-radius: 2px;
+    }
+    
+    .step-line.done {
+      background: var(--success);
+    }
+    
+    /* Form Elements */
+    label { 
+      display: block; 
+      font-size: 20px; 
+      font-weight: 700; 
+      color: var(--text);
+      margin-bottom: 10px;
+      margin-top: 20px;
+    }
+    
+    label:first-of-type {
+      margin-top: 0;
+    }
+    
+    input[type="number"], 
+    input[type="text"] {
+      width: 100%; 
+      padding: 18px 20px; 
+      font-size: 22px; 
+      font-weight: 600;
+      border: 3px solid var(--border);
+      border-radius: 14px;
+      outline: none; 
+      background: var(--bg);
+      color: var(--text);
+      font-family: inherit;      transition: all 0.3s;
+    }
+    
+    input[type="number"]:focus, 
+    input[type="text"]:focus {
+      border-color: var(--primary); 
+      background: white;
+      box-shadow: 0 0 0 4px rgba(8,145,178,0.12);
+    }
+    
+    input::placeholder { 
+      color: #94a3b8; 
+      font-size: 18px;
+    }
+    
+    /* Unit Buttons */
+    .unit-group { 
+      display: flex; 
+      gap: 12px; 
+      margin-top: 10px;
+    }
+    
     .unit-btn {
-      flex: 1; padding: 12px; border: 2px solid #e2e8f0; border-radius: 12px;
-      background: #f8fafc; font-weight: 600; cursor: pointer; transition: all 0.2s;
+      flex: 1; 
+      padding: 16px 20px; 
+      border: 3px solid var(--border); 
+      border-radius: 12px;
+      background: var(--bg); 
+      color: var(--text-light);
+      font-size: 20px;
+      font-weight: 700; 
+      cursor: pointer; 
+      transition: all 0.2s;
+      font-family: inherit;
     }
-    .unit-btn.active { background: #6366f1; border-color: #6366f1; color: white; box-shadow: 0 4px 12px rgba(99,102,241,0.25); }
-
-    .btn {
-      width: 100%; padding: 16px; background: #6366f1; color: white;
-      border: none; border-radius: 12px; font-size: 16px; font-weight: 700;
-      cursor: pointer; margin-top: 14px; transition: transform 0.2s, box-shadow 0.2s;
+    
+    .unit-btn.active {
+      background: linear-gradient(135deg, var(--primary), var(--primary-light)); 
+      border-color: var(--primary); 
+      color: white;
+      box-shadow: 0 4px 12px rgba(8,145,178,0.3);
     }
-    .btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(99,102,241,0.3); }
-    .btn:disabled { background: #cbd5e1; cursor: not-allowed; }
-    .btn.secondary { background: transparent; color: #475569; border: 2px solid #e2e8f0; margin-top: 10px; }
-    .btn.secondary:hover:not(:disabled) { background: #f8fafc; border-color: #cbd5e1; }
-
-    .result {
-      text-align: center; background: linear-gradient(135deg, #f8fafc 0%, #f0fdf4 100%);
-      border: 2px solid #bfdbfe; padding: 28px 20px; animation: popIn 0.4s ease both;
+    
+    .unit-btn:hover:not(.active) { 
+      background: white;
+      border-color: var(--primary-light);
+      color: var(--primary);
     }
-    @keyframes popIn { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
-
-    .res-label { font-size: 16px; font-weight: 600; color: #475569; margin-bottom: 8px; }
+    
+    /* Main Buttons */    .btn {
+      width: 100%; 
+      padding: 20px; 
+      border: none; 
+      border-radius: 14px;
+      font-size: 22px; 
+      font-weight: 800; 
+      cursor: pointer; 
+      margin-top: 24px;
+      transition: all 0.3s; 
+      display: flex; 
+      align-items: center;
+      justify-content: center; 
+      gap: 12px;
+      font-family: inherit;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+    }
+    
+    .btn-primary:hover:not(:disabled) {
+      transform: translateY(-3px); 
+      box-shadow: 0 8px 25px rgba(8,145,178,0.4);
+    }
+    
+    .btn-success {
+      background: linear-gradient(135deg, var(--success), #059669);
+      color: white;
+    }
+    
+    .btn-accent {
+      background: linear-gradient(135deg, var(--accent), #d97706);
+      color: white;
+    }
+    
+    .btn:disabled { 
+      background: #cbd5e1; 
+      color: #94a3b8; 
+      cursor: not-allowed; 
+      box-shadow: none;
+      transform: none;
+    }
+    
+    .btn-secondary {
+      background: white;
+      color: var(--text);
+      border: 3px solid var(--border);      margin-top: 12px;
+    }
+    
+    .btn-secondary:hover { 
+      background: var(--bg);
+      border-color: var(--primary-light);
+      transform: none;
+    }
+    
+    .btn-sm {
+      width: auto; 
+      padding: 14px 24px; 
+      font-size: 18px;
+      margin-top: 0;
+    }
+    
+    /* Result Card */
+    .result-card {
+      background: linear-gradient(135deg, #ecfeff, #f0f9ff);
+      border: 3px solid var(--primary-light);
+      border-radius: 20px;
+      padding: 32px 24px;
+      text-align: center;
+      margin-top: 20px;
+      animation: popIn 0.4s ease;
+    }
+    
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    
+    .result-label {
+      font-size: 20px;
+      color: var(--text-light);
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    
     .result-amount {
-      font-size: 56px; font-weight: 900; color: #6366f1;
-      margin: 10px 0 18px; line-height: 1;
-      background: linear-gradient(135deg, #4f46e5, #10b981);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      text-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      font-size: 48px;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin: 16px 0;
+      line-height: 1.2;
     }
-
-    .summary-card {
-      background: white; border-radius: 14px; padding: 16px;
-      margin: 18px 0 22px; border: 1px solid #e2e8f0;
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+    
+    .summary-grid {      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin: 24px 0;
     }
-    .sum-item { text-align: center; padding: 6px; }
-    .sum-lbl { font-size: 11px; color: #64748b; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
-    .sum-val { font-size: 15px; color: #0f172a; font-weight: 700; }
-
-    .calc-guide {
-      background: #f1f5f9; border-radius: 14px; padding: 16px;
-      margin: 0 0 22px; text-align: left; border: 1px solid #e2e8f0;
+    
+    .summary-item {
+      background: white;
+      padding: 16px;
+      border-radius: 12px;
+      border: 2px solid var(--border);
+      text-align: center;
     }
-    .calc-title { font-size: 14px; font-weight: 700; color: #334155; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
-    .calc-step {
-      padding: 8px 10px; margin-bottom: 6px; font-size: 14px; color: #475569;
-      background: white; border-radius: 8px; border: 1px solid #e2e8f0;      display: flex; align-items: center; gap: 8px;
+    
+    .summary-label {
+      font-size: 14px;
+      color: var(--text-light);
+      font-weight: 600;
+      margin-bottom: 6px;
     }
-    .calc-step .num {
-      background: #6366f1; color: white; width: 22px; height: 22px;
-      border-radius: 50%; display: flex; align-items: center; justify-content: center;
-      font-size: 12px; font-weight: 700; flex-shrink: 0;
+    
+    .summary-value {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text);
     }
-    .calc-step strong { color: #1e293b; }
-    .calc-step.final {
-      background: #eef2ff; border-color: #c7d2fe; color: #4f46e5;
-      font-weight: 700; font-size: 15px;
+    
+    /* Calculation Steps */
+    .calc-steps {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      margin: 24px 0;
+      border: 2px solid var(--border);
     }
-
-    footer { text-align: center; margin-top: 30px; color: #64748b; font-size: 14px; }
-    .brand { color: #6366f1; font-weight: 700; }
-    .heart { color: #ef4444; animation: pulse 1.5s infinite; display: inline-block; }
-    @keyframes pulse { 50% { transform: scale(1.2); } }
-
-    .hidden { display: none !important; }
-    .error { color: #ef4444; font-size: 13px; margin-top: 8px; display: none; background: #fef2f2; padding: 8px 10px; border-radius: 8px; border-left: 3px solid #ef4444; }
+    
+    .calc-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .calc-item {
+      padding: 14px;
+      margin-bottom: 12px;
+      background: var(--bg);      border-radius: 10px;
+      border-left: 4px solid var(--primary);
+      font-size: 17px;
+      line-height: 1.6;
+    }
+    
+    .calc-item strong {
+      color: var(--primary-dark);
+    }
+    
+    .calc-item.final {
+      background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+      border-left-color: var(--success);
+      color: #065f46;
+      font-weight: 700;
+      font-size: 19px;
+    }
+    
+    /* Product List */
+    .product-list { 
+      margin-top: 24px; 
+    }
+    
+    .product-item {
+      display: flex; 
+      flex-direction: column;
+      gap: 10px;
+      padding: 20px; 
+      margin-bottom: 14px;
+      background: linear-gradient(135deg, #fffbeb, #fff);
+      border-radius: 14px;
+      border: 2px solid #fde68a;
+      animation: slideIn 0.3s ease;
+    }
+    
+    @keyframes slideIn { 
+      from { opacity: 0; transform: translateX(-20px); } 
+      to { opacity: 1; transform: translateX(0); } 
+    }
+    
+    .product-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .p-name {
+      font-size: 22px; 
+      font-weight: 700;       color: var(--text);
+      flex: 1;
+    }
+    
+    .p-price { 
+      font-size: 26px; 
+      font-weight: 800; 
+      color: var(--primary);
+      white-space: nowrap;
+    }
+    
+    .p-detail { 
+      font-size: 17px; 
+      color: var(--text-light);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    
+    .p-detail span {
+      background: white;
+      padding: 4px 12px;
+      border-radius: 8px;
+      border: 2px solid var(--border);
+    }
+    
+    .p-remove {
+      width: 44px; 
+      height: 44px; 
+      border-radius: 10px; 
+      border: none;
+      background: #ef4444; 
+      color: white;
+      font-size: 24px; 
+      cursor: pointer; 
+      display: flex; 
+      align-items: center;
+      justify-content: center; 
+      transition: all 0.2s;
+      flex-shrink: 0;
+      font-weight: 700;
+    }
+    
+    .p-remove:hover { 
+      background: #dc2626;
+      transform: scale(1.1);
+    }
+    
+    /* Total Bar */
+    .total-bar {      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 16px;
+      padding: 24px; 
+      margin-top: 24px;
+      display: flex; 
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 6px 20px rgba(8,145,178,0.3);
+    }
+    
+    .total-label { 
+      font-size: 20px; 
+      font-weight: 700; 
+      color: #e0f2fe;
+    }
+    
+    .total-items {
+      font-size: 16px;
+      color: #a5f3fc;
+      margin-top: 4px;
+    }
+    
+    .total-value { 
+      font-size: 36px; 
+      font-weight: 900; 
+      color: white;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    }
+    
+    /* Add Form */
+    .add-form {
+      display: grid; 
+      gap: 16px;
+      margin-top: 20px;
+      padding: 24px;
+      background: var(--bg);
+      border-radius: 16px;
+      border: 2px solid var(--border);
+    }
+    
+    .form-row { 
+      display: grid; 
+      grid-template-columns: 1fr 1fr; 
+      gap: 16px;
+    }
+    
+    .form-row.full { 
+      grid-template-columns: 1fr;
+    }
+        .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    /* Item Count Badge */
+    .item-count {
+      display: inline-flex; 
+      align-items: center; 
+      gap: 8px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light)); 
+      color: white;
+      padding: 8px 18px; 
+      border-radius: 24px; 
+      font-size: 18px; 
+      font-weight: 700;
+    }
+    
+    /* Empty State */
+    .empty-state {
+      text-align: center; 
+      padding: 48px 24px; 
+      color: var(--text-light);
+      background: var(--bg);
+      border-radius: 16px;
+      border: 3px dashed var(--border);
+    }
+    
+    .empty-state .icon { 
+      font-size: 64px; 
+      margin-bottom: 16px; 
+      opacity: 0.6;
+    }
+    
+    .empty-state p { 
+      font-size: 20px;
+      line-height: 1.8;
+    }
+    
+    /* Footer */
+    footer {
+      text-align: center; 
+      margin-top: 40px; 
+      color: var(--text-light); 
+      font-size: 18px;
+      padding: 24px;
+      background: white;
+      border-radius: 14px;
+      border: 2px solid var(--border);
+    }    
+    .brand { 
+      color: var(--primary); 
+      font-weight: 800; 
+    }
+    
+    .heart { 
+      color: #ef4444; 
+      animation: pulse 1.5s infinite; 
+      display: inline-block; 
+      font-size: 24px;
+    }
+    
+    @keyframes pulse { 
+      50% { transform: scale(1.25); } 
+    }
+    
+    .hidden { 
+      display: none !important; 
+    }
+    
+    /* Responsive */
+    @media (max-width: 480px) {
+      body {
+        font-size: 16px;
+        padding: 12px;
+      }
+      
+      .logo {
+        font-size: 30px;
+      }
+      
+      .card {
+        padding: 20px;
+      }
+      
+      .card-title {
+        font-size: 22px;
+      }
+      
+      input[type="number"],
+      input[type="text"] {
+        font-size: 20px;
+        padding: 16px;
+      }
+      
+      .btn {
+        font-size: 20px;
+        padding: 18px;
+      }      
+      .result-amount {
+        font-size: 40px;
+      }
+      
+      .total-value {
+        font-size: 30px;
+      }
+      
+      .summary-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <header>
-      <div class="logo">⚖️ Hisab Pro </div>
+      <div class="logo">🛒 रेट प्रो</div>
+      <div class="subtitle">आसान हिसाब किताब</div>
     </header>
 
-    <div class="steps">
-      <div class="step-dot active" id="d1"></div>
-      <div class="step-dot" id="d2"></div>
-      <div class="step-dot" id="d3"></div>
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('single')">
+        ⚖️ एक सामान
+      </button>
+      <button class="tab-btn" onclick="switchTab('multi')">
+        📦 कई सामान
+      </button>
     </div>
 
-    <!-- Step 1 -->
-    <div class="card" id="s1">
-      <div class="card-title">⚖️ वजन डालो</div>
-      <label>वजन</label>
-      <input type="number" id="w1" placeholder="" oninput="v1()">
-      <div class="unit-group">
-        <button class="unit-btn active" onclick="u(this,'g')">ग्राम</button>
-        <button class="unit-btn" onclick="u(this,'kg')">किलो</button>
+    <!-- ===== SINGLE PRODUCT CALCULATOR ===== -->
+    <div id="tab-single">
+      <div class="steps">
+        <div class="step-item">
+          <div class="step-dot active" id="d1">1</div>
+        </div>
+        <div class="step-line" id="l1"></div>
+        <div class="step-item">
+          <div class="step-dot" id="d2">2</div>
+        </div>
+        <div class="step-line" id="l2"></div>
+        <div class="step-item">
+          <div class="step-dot" id="d3">3</div>
+        </div>
       </div>
-      <div class="error" id="e1">⚠️ वजन डालो</div>
-      <button class="btn" id="b1" onclick="n2()" disabled>आगे ➡</button>
-    </div>
-
-    <!-- Step 2 -->
-    <div class="card hidden" id="s2">
-      <div class="card-title">💰 दाम बताओ</div>      <label>रेट (₹ में)</label>
-      <input type="number" id="p1" placeholder="" oninput="v2()">
-      <div class="error" id="e2">⚠️ दाम डालो</div>
-      <button class="btn" id="b2" onclick="n3()" disabled>आगे ➡</button>
-      <button class="btn secondary" onclick="rst()">🔄 फिर से शुरू</button>
-    </div>
-
-    <!-- Step 3 -->
-    <div class="card hidden" id="s3">
-      <div class="card-title">📦 अब कितना चाहिए?</div>
-      <label>वजन</label>
-      <input type="number" id="w2" placeholder="" oninput="v3()">
-      <div class="unit-group">
-        <button class="unit-btn active" onclick="u(this,'g')">ग्राम</button>
-        <button class="unit-btn" onclick="u(this,'kg')">किलो</button>
-      </div>
-      <div class="error" id="e3">⚠️ वजन डालो</div>
-      <button class="btn" id="b3" onclick="calc()" disabled>💰 हिसाब लगाओ</button>
-      <button class="btn secondary" onclick="rst()">🔄 नया हिसाब</button>
-    </div>
-
-    <!-- Result -->
-    <div class="card result hidden" id="res">
-      <div class="res-label">💳 कुल देने हैं</div>
-      <div class="result-amount" id="amt">₹0</div>
-      
-      <div class="summary-card">
-        <div class="sum-item"><div class="sum-lbl">पहला वजन</div><div class="sum-val" id="sv1">-</div></div>
-        <div class="sum-item"><div class="sum-lbl">दाम</div><div class="sum-val" id="sv2">-</div></div>
-        <div class="sum-item"><div class="sum-lbl">नया वजन</div><div class="sum-val" id="sv3">-</div></div>
+      <!-- Step 1: Item Name, Weight, Unit, Price -->
+      <div class="card" id="s1">
+        <div class="card-title">
+          <span class="icon">📊</span>
+          सामान की जानकारी
+        </div>
+        
+        <label>सामान का नाम</label>
+        <input type="text" id="item-name" placeholder="">
+        
+        <label>वजन (कितना है)</label>
+        <input type="number" id="ref-weight" step="0.01" placeholder="">
+        <div class="unit-group">
+          <button class="unit-btn active" onclick="setUnit('ref', 'g')">ग्राम</button>
+          <button class="unit-btn" onclick="setUnit('ref', 'kg')">किलो</button>
+        </div>
+        
+        <label>भाव (कितने रुपये का)</label>
+        <input type="number" id="ref-price" step="0.01" placeholder="">
+        
+        <button class="btn btn-primary" id="btn1" onclick="step2()" disabled>
+          आगे बढ़ें ➡
+        </button>
       </div>
 
-      <div class="calc-guide">
-        <div class="calc-title">📐 हिसाब कैसे बना?</div>
-        <div class="calc-step" id="c1"></div>
-        <div class="calc-step" id="c2"></div>
-        <div class="calc-step" id="c3"></div>
-        <div class="calc-step final" id="c4"></div>
+      <!-- Step 2: Target -->
+      <div class="card hidden" id="s2">
+        <div class="card-title">
+          <span class="icon">🎯</span>
+          कितना चाहिए आपको
+        </div>
+        <label>कितना चाहिए</label>
+        <input type="number" id="target-weight" step="0.01" placeholder="">
+        <div class="unit-group">
+          <button class="unit-btn active" onclick="setUnit('target', 'g')">ग्राम</button>
+          <button class="unit-btn" onclick="setUnit('target', 'kg')">किलो</button>
+        </div>
+        
+        <button class="btn btn-primary" id="btn2" onclick="calculate()" disabled>
+          💰 हिसाब लगाएं
+        </button>
+        <button class="btn btn-secondary" onclick="resetSingle()">
+          🔄 फिर से शुरू करें
+        </button>
       </div>
 
-      <button class="btn" style="background:#10b981" onclick="cp()">📋 कॉपी करो</button>
-      <button class="btn secondary" onclick="rst()">🔄 नया शुरू करो</button>
+      <!-- Result -->
+      <div class="card hidden" id="result-card">
+        <div class="card-title">          <span class="icon">✅</span>
+          आपका हिसाब
+        </div>
+        
+        <div class="result-label">कुल देने हैं</div>
+        <div class="result-amount" id="final-amount">₹0.00</div>
+        
+        <div class="summary-grid">
+          <div class="summary-item">
+            <div class="summary-label">सामान</div>
+            <div class="summary-value" id="sum-name">-</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-label">पहला वजन</div>
+            <div class="summary-value" id="sum-ref">-</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-label">पहला भाव</div>
+            <div class="summary-value" id="sum-price">-</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-label">आपका वजन</div>
+            <div class="summary-value" id="sum-target">-</div>
+          </div>
+        </div>
+
+        <div class="calc-steps">
+          <div class="calc-title">📐 हिसाब कैसे लगा</div>
+          <div class="calc-item" id="calc1"></div>
+          <div class="calc-item" id="calc2"></div>
+          <div class="calc-item" id="calc3"></div>
+          <div class="calc-item final" id="calc4"></div>
+        </div>
+
+        <button class="btn btn-success" onclick="copyResult()">
+          📋 कॉपी करें
+        </button>
+        <button class="btn btn-secondary" onclick="resetSingle()">
+          🔄 नया हिसाब
+        </button>
+      </div>
     </div>
 
-    <footer>Powered by <span class="brand">Piyuneel</span> <span class="heart">❤️</span></footer>
+    <!-- ===== MULTI-PRODUCT CALCULATOR ===== -->
+    <div id="tab-multi" class="hidden">
+      <div class="card">
+        <div class="card-title">
+          <span>📝 नया सामान जोड़ें</span>
+          <span class="item-count" id="item-count" style="display:none">0 आइटम</span>
+        </div>
+        <div class="add-form">
+          <div class="form-row full">
+            <div class="form-group">
+              <label for="m-name">सामान का नाम</label>
+              <input type="text" id="m-name" placeholder="">
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="m-weight">वजन</label>
+              <input type="number" id="m-weight" step="0.01" placeholder="">
+            </div>
+            <div class="form-group">
+              <label>इकाई</label>
+              <div class="unit-group" id="m-unit-group">
+                <button class="unit-btn active" onclick="mu(this,'g')">ग्राम</button>
+                <button class="unit-btn" onclick="mu(this,'kg')">किलो</button>
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-row full">
+            <div class="form-group">
+              <label for="m-price">भाव (₹ में)</label>
+              <input type="number" id="m-price" step="0.01" placeholder="">
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="m-qty">कितना चाहिए</label>
+              <input type="number" id="m-qty" step="0.01" placeholder="">
+            </div>
+            <div class="form-group">
+              <label>इकाई</label>
+              <div class="unit-group" id="m-qty-unit-group">
+                <button class="unit-btn active" onclick="muQty(this,'g')">ग्राम</button>
+                <button class="unit-btn" onclick="muQty(this,'kg')">किलो</button>
+              </div>
+            </div>
+          </div>
+          
+          <button class="btn btn-accent" onclick="addItem()" style="margin-top: 8px;">
+            ➕ सामान जोड़ें
+          </button>
+        </div>
+
+        <div class="product-list" id="plist"></div>
+        <div class="total-bar hidden" id="total-bar">
+          <div>
+            <div class="total-label">कुल देय राशि</div>
+            <div class="total-items" id="total-items">0 आइटम</div>
+          </div>
+          <div class="total-value" id="grand-total">₹0.00</div>
+        </div>
+
+        <div id="multi-actions" class="hidden" style="margin-top:20px">
+          <button class="btn btn-success" onclick="copyTotal()">📋 पूरी लिस्ट कॉपी करें</button>
+          <button class="btn btn-secondary" onclick="clearAll()">🗑️ सब साफ करें</button>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      बनाया है <span class="heart">❤️</span> से <span class="brand">Piyuneel</span> द्वारा
+    </footer>
   </div>
 
   <script>
-    let d = { bu:'g', bw:0, price:0, tu:'g', tw:0 };
-    function u(btn, val) {
-      btn.parentElement.querySelectorAll('.unit-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      if(!document.getElementById('s1').classList.contains('hidden')) d.bu = val;
-      else d.tu = val;
+    /* ===== TABS ===== */
+    function switchTab(tab) {
+      document.querySelectorAll('.tab-btn').forEach((b,i) => {
+        b.classList.toggle('active', (i===0 && tab==='single') || (i===1 && tab==='multi'));
+      });
+      document.getElementById('tab-single').classList.toggle('hidden', tab !== 'single');
+      document.getElementById('tab-multi').classList.toggle('hidden', tab !== 'multi');
     }
 
-    function v1() { document.getElementById('b1').disabled = !parseFloat(document.getElementById('w1').value); document.getElementById('e1').style.display='none'; }
-    function v2() { document.getElementById('b2').disabled = !parseFloat(document.getElementById('p1').value); document.getElementById('e2').style.display='none'; }
-    function v3() { document.getElementById('b3').disabled = !parseFloat(document.getElementById('w2').value); document.getElementById('e3').style.display='none'; }
+    /* ===== SINGLE CALCULATOR ===== */
+    let refUnit = 'g';
+    let targetUnit = 'g';
 
-    function n2() {
-      const w = parseFloat(document.getElementById('w1').value);
-      if(!w) { document.getElementById('e1').style.display='block'; return; }
-      d.bw = w;
+    function setUnit(type, unit) {
+      const group = type === 'ref' ? document.querySelector('#s1 .unit-group') : 
+                                   document.querySelector('#s2 .unit-group');
+      group.querySelectorAll('.unit-btn').forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+      
+      if(type === 'ref') refUnit = unit;
+      else targetUnit = unit;
+    }
+
+    // Validation
+    document.getElementById('ref-weight').addEventListener('input', function() {
+      checkStep1();
+    });
+        document.getElementById('ref-price').addEventListener('input', function() {
+      checkStep1();
+    });
+
+    function checkStep1() {
+      const w = document.getElementById('ref-weight').value;
+      const p = document.getElementById('ref-price').value;
+      document.getElementById('btn1').disabled = !w || w <= 0 || !p || p <= 0;
+    }
+    
+    document.getElementById('target-weight').addEventListener('input', function() {
+      document.getElementById('btn2').disabled = !this.value || this.value <= 0;
+    });
+
+    function step2() {
+      const w = parseFloat(document.getElementById('ref-weight').value);
+      const p = parseFloat(document.getElementById('ref-price').value);
+      
+      if(!w || w <= 0 || !p || p <= 0) {
+        alert('कृपया सही वजन और भाव डालें');
+        return;
+      }
+      
       document.getElementById('s1').classList.add('hidden');
       document.getElementById('s2').classList.remove('hidden');
-      document.getElementById('d1').classList.replace('active','done');
+      document.getElementById('d1').classList.replace('active', 'done');
       document.getElementById('d2').classList.add('active');
-      document.getElementById('p1').focus();
+      document.getElementById('l1').classList.add('done');
+      document.getElementById('target-weight').focus();
     }
 
-    function n3() {
-      const p = parseFloat(document.getElementById('p1').value);
-      if(!p) { document.getElementById('e2').style.display='block'; return; }
-      d.price = p;
+    function calculate() {
+      const itemName = document.getElementById('item-name').value.trim() || 'सामान';
+      const refWeight = parseFloat(document.getElementById('ref-weight').value);
+      const refPrice = parseFloat(document.getElementById('ref-price').value);
+      const targetWeight = parseFloat(document.getElementById('target-weight').value);
+      
+      if(!targetWeight || targetWeight <= 0) {
+        alert('कृपया वजन डालें');
+        return;
+      }
+
+      // Convert to grams
+      const refGrams = refUnit === 'kg' ? refWeight * 1000 : refWeight;
+      const targetGrams = targetUnit === 'kg' ? targetWeight * 1000 : targetWeight;
+      
+      // Calculate with 2 decimal precision
+      const ratePerGram = parseFloat((refPrice / refGrams).toFixed(4));
+      const finalAmount = parseFloat((targetGrams * ratePerGram).toFixed(2));
+      // Display
+      document.getElementById('final-amount').textContent = '₹' + finalAmount.toFixed(2);
+      document.getElementById('sum-name').textContent = itemName;
+      document.getElementById('sum-ref').textContent = refWeight.toFixed(2) + ' ' + (refUnit === 'g' ? 'ग्राम' : 'किलो');
+      document.getElementById('sum-price').textContent = '₹' + refPrice.toFixed(2);
+      document.getElementById('sum-target').textContent = targetWeight.toFixed(2) + ' ' + (targetUnit === 'g' ? 'ग्राम' : 'किलो');
+
+      // Calculation steps
+      document.getElementById('calc1').innerHTML = 
+        `<strong>पहला:</strong> ${refWeight.toFixed(2)} ${refUnit === 'g' ? 'ग्राम' : 'किलो'} का भाव = ₹${refPrice.toFixed(2)}`;
+      document.getElementById('calc2').innerHTML = 
+        `<strong>1 ग्राम का रेट:</strong> ₹${refPrice.toFixed(2)} ÷ ${refGrams.toFixed(2)} ग्राम = ₹${ratePerGram.toFixed(4)}/ग्राम`;
+      document.getElementById('calc3').innerHTML = 
+        `<strong>अब:</strong> ${targetGrams.toFixed(2)} ग्राम × ₹${ratePerGram.toFixed(4)} = ₹${finalAmount.toFixed(2)}`;
+      document.getElementById('calc4').innerHTML = 
+        `✅ कुल देने हैं: ₹${finalAmount.toFixed(2)}`;
+
       document.getElementById('s2').classList.add('hidden');
-      document.getElementById('s3').classList.remove('hidden');
-      document.getElementById('d2').classList.replace('active','done');
+      document.getElementById('result-card').classList.remove('hidden');
+      document.getElementById('d2').classList.replace('active', 'done');
       document.getElementById('d3').classList.add('active');
-      document.getElementById('w2').focus();
+      document.getElementById('l2').classList.add('done');
     }
 
-    function calc() {
-      const w = parseFloat(document.getElementById('w2').value);
-      if(!w) { document.getElementById('e3').style.display='block'; return; }
-      d.tw = w;
-
-      const baseGrams = d.bu === 'kg' ? d.bw * 1000 : d.bw;
-      const pricePerGram = d.price / baseGrams;
-      const targetGrams = d.tu === 'kg' ? d.tw * 1000 : d.tw;
-      const amt = Math.round(targetGrams * pricePerGram);
-
-      document.getElementById('amt').textContent = '₹' + amt.toLocaleString('en-IN');
-      document.getElementById('sv1').textContent = `${d.bw} ${d.bu === 'g' ? 'ग्राम' : 'किलो'}`;
-      document.getElementById('sv2').textContent = '₹' + d.price.toLocaleString('en-IN');
-      document.getElementById('sv3').textContent = `${d.tw} ${d.tu === 'g' ? 'ग्राम' : 'किलो'}`;
-
-      document.getElementById('c1').innerHTML = `<span class="num">1</span> पहले: <strong>${d.bw} ${d.bu}</strong> का दाम <strong>₹${d.price.toLocaleString('en-IN')}</strong> था`;
-      document.getElementById('c2').innerHTML = `<span class="num">2</span> 1 ग्राम का रेट: ₹${d.price} ÷ ${baseGrams}g = <strong>₹${pricePerGram.toFixed(4)}</strong>/g`;      document.getElementById('c3').innerHTML = `<span class="num">3</span> अब ${d.tw} ${d.tu} × ₹${pricePerGram.toFixed(4)}`;
-      document.getElementById('c4').innerHTML = `<span class="num">✓</span> कुल: <strong>₹${amt.toLocaleString('en-IN')}</strong> देने हैं`;
-
-      document.getElementById('s3').classList.add('hidden');
-      document.getElementById('res').classList.remove('hidden');
-      document.getElementById('d3').classList.replace('active','done');
-    }
-
-    function rst() {
-      ['w1','p1','w2'].forEach(id => document.getElementById(id).value = '');
-      ['s1','s2','s3','res'].forEach(id => document.getElementById(id).classList.add('hidden'));
+    function resetSingle() {
+      document.getElementById('item-name').value = '';
+      document.getElementById('ref-weight').value = '';
+      document.getElementById('ref-price').value = '';
+      document.getElementById('target-weight').value = '';
+      
       document.getElementById('s1').classList.remove('hidden');
+      document.getElementById('s2').classList.add('hidden');
+      document.getElementById('result-card').classList.add('hidden');
+      
       document.getElementById('d1').className = 'step-dot active';
       document.getElementById('d2').className = 'step-dot';
       document.getElementById('d3').className = 'step-dot';
-      ['b1','b2','b3'].forEach(id => document.getElementById(id).disabled = true);
-      document.querySelectorAll('.unit-btn').forEach(b => b.classList.toggle('active', b.textContent.includes('ग्राम')));
-      d = { bu:'g', bw:0, price:0, tu:'g', tw:0 };
-      document.getElementById('w1').focus();
+      document.getElementById('l1').className = 'step-line';
+      document.getElementById('l2').className = 'step-line';
+      
+      document.getElementById('btn1').disabled = true;
+      document.getElementById('btn2').disabled = true;
+      
+      document.querySelectorAll('#s1 .unit-btn').forEach((b, i) => b.classList.toggle('active', i === 0));
+      document.querySelectorAll('#s2 .unit-btn').forEach((b, i) => b.classList.toggle('active', i === 0));
+      
+      refUnit = 'g';
+      targetUnit = 'g';
+      document.getElementById('item-name').focus();
+    }
+    function copyResult() {
+      const text = `रेट प्रो - हिसाब\n` +
+        `════════════════\n` +
+        `${document.getElementById('sum-name').textContent}\n` +
+        `${document.getElementById('sum-ref').textContent} = ₹${document.getElementById('sum-price').textContent}\n` +
+        `${document.getElementById('sum-target').textContent} = ${document.getElementById('final-amount').textContent}\n` +
+        `════════════════`;
+      
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = document.querySelector('#result-card .btn-success');
+        const orig = btn.innerHTML;
+        btn.innerHTML = '✅ कॉपी हो गया!';
+        setTimeout(() => btn.innerHTML = orig, 2000);
+      });
     }
 
-    function cp() {
-      navigator.clipboard.writeText(document.getElementById('amt').textContent);
-      alert('✅ कॉपी हो गया!');
+    /* ===== MULTI-PRODUCT CALCULATOR ===== */
+    let items = [];
+    let mUnit = 'g';
+    let mQtyUnit = 'g';
+
+    function mu(btn, val) {
+      document.querySelectorAll('#m-unit-group .unit-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      mUnit = val;
     }
+
+    function muQty(btn, val) {
+      document.querySelectorAll('#m-qty-unit-group .unit-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      mQtyUnit = val;
+    }
+
+    function addItem() {
+      const name = document.getElementById('m-name').value.trim();
+      const weight = parseFloat(document.getElementById('m-weight').value);
+      const price = parseFloat(document.getElementById('m-price').value);
+      const qty = parseFloat(document.getElementById('m-qty').value);
+
+      if(!name) {
+        alert('⚠️ कृपया सामान का नाम डालें');
+        document.getElementById('m-name').focus();
+        return;
+      }
+      
+      if(!weight || weight <= 0) {
+        alert('⚠️ कृपया सही वजन डालें');
+        document.getElementById('m-weight').focus();
+        return;      }
+      
+      if(!price || price <= 0) {
+        alert('⚠️ कृपया सही भाव डालें');
+        document.getElementById('m-price').focus();
+        return;
+      }
+      
+      if(!qty || qty <= 0) {
+        alert('⚠️ कृपया बताएं कितना चाहिए');
+        document.getElementById('m-qty').focus();
+        return;
+      }
+
+      const grams = mUnit === 'kg' ? weight * 1000 : weight;
+      const qtyGrams = mQtyUnit === 'kg' ? qty * 1000 : qty;
+      const ratePerGram = parseFloat((price / grams).toFixed(4));
+      const totalPrice = parseFloat((qtyGrams * ratePerGram).toFixed(2));
+
+      items.push({ 
+        name, 
+        weight, 
+        unit: mUnit, 
+        qty,
+        qtyUnit: mQtyUnit,
+        pricePerUnit: price, 
+        totalPrice,
+        ratePerGram 
+      });
+      
+      renderItems();
+
+      document.getElementById('m-name').value = '';
+      document.getElementById('m-weight').value = '';
+      document.getElementById('m-price').value = '';
+      document.getElementById('m-qty').value = '';
+      document.getElementById('m-name').focus();
+    }
+
+    function removeItem(i) {
+      if(confirm('क्या आप इस सामान को हटाना चाहते हैं?')) {
+        items.splice(i, 1);
+        renderItems();
+      }
+    }
+
+    function renderItems() {
+      const list = document.getElementById('plist');
+      const totalBar = document.getElementById('total-bar');
+      const actions = document.getElementById('multi-actions');      const countBadge = document.getElementById('item-count');
+
+      if(items.length === 0) {
+        list.innerHTML = `
+          <div class="empty-state">
+            <div class="icon">📋</div>
+            <p>अभी तक कोई सामान नहीं जोड़ा गया<br>ऊपर फॉर्म भरकर पहला सामान जोड़ें!</p>
+          </div>
+        `;
+        totalBar.classList.add('hidden');
+        actions.classList.add('hidden');
+        countBadge.style.display = 'none';
+        return;
+      }
+      countBadge.style.display = 'inline-flex';
+      countBadge.textContent = items.length + ' आइटम';
+
+      list.innerHTML = items.map((item, i) => {
+        const unitName = item.unit === 'g' ? 'ग्राम' : 'किलो';
+        const qtyUnitName = item.qtyUnit === 'g' ? 'ग्राम' : 'किलो';
+        return `
+          <div class="product-item" style="animation-delay:${i*0.05}s">
+            <div class="product-header">
+              <div class="p-name">${i+1}. ${item.name}</div>
+              <div class="p-price">₹${item.totalPrice.toFixed(2)}</div>
+              <button class="p-remove" onclick="removeItem(${i})" title="हटाएं">✕</button>
+            </div>
+            <div class="p-detail">
+              <span>वजन: ${item.weight.toFixed(2)} ${unitName}</span>
+              <span>मात्रा: ${item.qty.toFixed(2)} ${qtyUnitName}</span>
+              <span>भाव: ₹${item.pricePerUnit.toFixed(2)}</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      const total = parseFloat(items.reduce((s, it) => s + it.totalPrice, 0).toFixed(2));
+      document.getElementById('grand-total').textContent = '₹' + total.toFixed(2);
+      document.getElementById('total-items').textContent = items.length + ' आइटम';
+      totalBar.classList.remove('hidden');
+      actions.classList.remove('hidden');
+    }
+
+    function clearAll() {
+      if(items.length === 0) return;
+      if(confirm('क्या आप सारा हिसाब साफ करना चाहते हैं?')) {
+        items = [];
+        renderItems();
+      }
+    }
+    function copyTotal() {
+      if(items.length === 0) return;
+      const total = parseFloat(items.reduce((s, it) => s + it.totalPrice, 0).toFixed(2));
+      
+      let text = `🛒 रेट प्रो - खरीदारी का हिसाब\n`;
+      text += `${'═'.repeat(40)}\n\n`;
+      
+      items.forEach((it, i) => {
+        const unitName = it.unit === 'g' ? 'ग्राम' : 'किलो';
+        const qtyUnitName = it.qtyUnit === 'g' ? 'ग्राम' : 'किलो';
+        text += `${i+1}. ${it.name}\n`;
+        text += `   ${it.weight.toFixed(2)} ${unitName} का भाव ₹${it.pricePerUnit.toFixed(2)}\n`;
+        text += `   ${it.qty.toFixed(2)} ${qtyUnitName} = ₹${it.totalPrice.toFixed(2)}\n\n`;
+      });
+      
+      text += `${'═'.repeat(40)}\n`;
+      text += `💳 कुल देय: ₹${total.toFixed(2)}\n`;
+      text += `${'═'.repeat(40)}`;
+
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = document.querySelector('#multi-actions .btn-success');
+        const orig = btn.innerHTML;
+        btn.innerHTML = '✅ कॉपी हो गया!';
+        setTimeout(() => btn.innerHTML = orig, 2000);
+      });
+    }
+
+    // Enter key support
+    document.getElementById('m-qty').addEventListener('keydown', e => { 
+      if(e.key === 'Enter') addItem(); 
+    });
+    document.getElementById('m-name').addEventListener('keydown', e => { 
+      if(e.key === 'Enter') document.getElementById('m-weight').focus(); 
+    });
+    document.getElementById('m-weight').addEventListener('keydown', e => { 
+      if(e.key === 'Enter') document.getElementById('m-price').focus(); 
+    });
+    document.getElementById('m-price').addEventListener('keydown', e => { 
+      if(e.key === 'Enter') document.getElementById('m-qty').focus(); 
+    });
+
+    // Initialize
+    renderItems();
   </script>
 </body>
 </html>
