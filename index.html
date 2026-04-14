@@ -47,7 +47,8 @@
       border-radius: 20px;
       box-shadow: 0 8px 20px rgba(8,145,178,0.25);
     }
-    .logo {      font-size: 36px;
+    .logo {
+      font-size: 36px;
       font-weight: 800;
       color: white;
       text-shadow: 2px 2px 4px rgba(0,0,0,0.15);
@@ -96,7 +97,8 @@
       margin-bottom: 20px;
       border: 2px solid var(--border);
       box-shadow: 0 4px 15px rgba(0,0,0,0.06);
-    }    
+    }
+    
     .card-title {
       font-size: 26px;
       font-weight: 700;
@@ -113,60 +115,6 @@
     
     .card-title .icon {
       font-size: 32px;
-    }
-    
-    /* Steps */
-    .steps {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 28px;
-      flex-wrap: wrap;
-    }
-    
-    .step-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    
-    .step-dot {
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      background: var(--bg);
-      border: 3px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--text-light);
-      transition: all 0.3s;
-    }    
-    .step-dot.active {      background: linear-gradient(135deg, var(--primary), var(--primary-light));
-      border-color: var(--primary);
-      color: white;
-      box-shadow: 0 4px 12px rgba(8,145,178,0.35);
-      transform: scale(1.1);
-    }
-    
-    .step-dot.done {
-      background: var(--success);
-      border-color: var(--success);
-      color: white;
-    }
-    
-    .step-line {
-      width: 40px;
-      height: 3px;
-      background: var(--border);
-      border-radius: 2px;
-    }
-    
-    .step-line.done {
-      background: var(--success);
     }
     
     /* Form Elements */
@@ -194,7 +142,8 @@
       outline: none; 
       background: var(--bg);
       color: var(--text);
-      font-family: inherit;      transition: all 0.3s;
+      font-family: inherit;
+      transition: all 0.3s;
     }
     
     input[type="number"]:focus, 
@@ -243,7 +192,8 @@
       color: var(--primary);
     }
     
-    /* Main Buttons */    .btn {
+    /* Main Buttons */
+    .btn {
       width: 100%; 
       padding: 20px; 
       border: none; 
@@ -292,20 +242,14 @@
     .btn-secondary {
       background: white;
       color: var(--text);
-      border: 3px solid var(--border);      margin-top: 12px;
+      border: 3px solid var(--border);
+      margin-top: 12px;
     }
     
     .btn-secondary:hover { 
       background: var(--bg);
       border-color: var(--primary-light);
       transform: none;
-    }
-    
-    .btn-sm {
-      width: auto; 
-      padding: 14px 24px; 
-      font-size: 18px;
-      margin-top: 0;
     }
     
     /* Result Card */
@@ -341,7 +285,8 @@
       line-height: 1.2;
     }
     
-    .summary-grid {      display: grid;
+    .summary-grid {
+      display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 16px;
       margin: 24px 0;
@@ -390,7 +335,8 @@
     .calc-item {
       padding: 14px;
       margin-bottom: 12px;
-      background: var(--bg);      border-radius: 10px;
+      background: var(--bg);
+      border-radius: 10px;
       border-left: 4px solid var(--primary);
       font-size: 17px;
       line-height: 1.6;
@@ -439,7 +385,8 @@
     
     .p-name {
       font-size: 22px; 
-      font-weight: 700;       color: var(--text);
+      font-weight: 700; 
+      color: var(--text);
       flex: 1;
     }
     
@@ -488,7 +435,8 @@
     }
     
     /* Total Bar */
-    .total-bar {      background: linear-gradient(135deg, var(--primary), var(--secondary));
+    .total-bar {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
       border-radius: 16px;
       padding: 24px; 
       margin-top: 24px;
@@ -537,7 +485,8 @@
     .form-row.full { 
       grid-template-columns: 1fr;
     }
-        .form-group {
+    
+    .form-group {
       display: flex;
       flex-direction: column;
     }
@@ -586,7 +535,8 @@
       background: white;
       border-radius: 14px;
       border: 2px solid var(--border);
-    }    
+    }
+    
     .brand { 
       color: var(--primary); 
       font-weight: 800; 
@@ -635,7 +585,8 @@
       .btn {
         font-size: 20px;
         padding: 18px;
-      }      
+      }
+      
       .result-amount {
         font-size: 40px;
       }
@@ -670,70 +621,40 @@
       </button>
     </div>
 
-    <!-- ===== SINGLE PRODUCT CALCULATOR ===== -->
+    <!-- ===== SINGLE PRODUCT CALCULATOR - SIMPLIFIED ===== -->
     <div id="tab-single">
-      <div class="steps">
-        <div class="step-item">
-          <div class="step-dot active" id="d1">1</div>
-        </div>
-        <div class="step-line" id="l1"></div>
-        <div class="step-item">
-          <div class="step-dot" id="d2">2</div>
-        </div>
-        <div class="step-line" id="l2"></div>
-        <div class="step-item">
-          <div class="step-dot" id="d3">3</div>
-        </div>
-      </div>
-      <!-- Step 1: Item Name, Weight, Unit, Price -->
-      <div class="card" id="s1">
+      <div class="card">
         <div class="card-title">
-          <span class="icon">📊</span>
-          सामान की जानकारी
+          <span class="icon">⚖️</span>
+          हिसाब लगाएं
         </div>
-        
-        <label>सामान का नाम</label>
-        <input type="text" id="item-name" placeholder="">
-        
+
         <label>वजन (कितना है)</label>
         <input type="number" id="ref-weight" step="0.01" placeholder="">
-        <div class="unit-group">
-          <button class="unit-btn active" onclick="setUnit('ref', 'g')">ग्राम</button>
-          <button class="unit-btn" onclick="setUnit('ref', 'kg')">किलो</button>
+        <div class="unit-group" id="ref-unit-group">
+          <button class="unit-btn active" onclick="setUnit('ref', 'g', this)">ग्राम</button>
+          <button class="unit-btn" onclick="setUnit('ref', 'kg', this)">किलो</button>
         </div>
         
         <label>भाव (कितने रुपये का)</label>
         <input type="number" id="ref-price" step="0.01" placeholder="">
         
-        <button class="btn btn-primary" id="btn1" onclick="step2()" disabled>
-          आगे बढ़ें ➡
-        </button>
-      </div>
-
-      <!-- Step 2: Target -->
-      <div class="card hidden" id="s2">
-        <div class="card-title">
-          <span class="icon">🎯</span>
-          कितना चाहिए आपको
-        </div>
         <label>कितना चाहिए</label>
         <input type="number" id="target-weight" step="0.01" placeholder="">
-        <div class="unit-group">
-          <button class="unit-btn active" onclick="setUnit('target', 'g')">ग्राम</button>
-          <button class="unit-btn" onclick="setUnit('target', 'kg')">किलो</button>
+        <div class="unit-group" id="target-unit-group">
+          <button class="unit-btn active" onclick="setUnit('target', 'g', this)">ग्राम</button>
+          <button class="unit-btn" onclick="setUnit('target', 'kg', this)">किलो</button>
         </div>
         
-        <button class="btn btn-primary" id="btn2" onclick="calculate()" disabled>
+        <button class="btn btn-primary" id="calc-btn" onclick="calculateSingle()" disabled>
           💰 हिसाब लगाएं
-        </button>
-        <button class="btn btn-secondary" onclick="resetSingle()">
-          🔄 फिर से शुरू करें
         </button>
       </div>
 
       <!-- Result -->
       <div class="card hidden" id="result-card">
-        <div class="card-title">          <span class="icon">✅</span>
+        <div class="card-title">
+          <span class="icon">✅</span>
           आपका हिसाब
         </div>
         
@@ -741,10 +662,6 @@
         <div class="result-amount" id="final-amount">₹0.00</div>
         
         <div class="summary-grid">
-          <div class="summary-item">
-            <div class="summary-label">सामान</div>
-            <div class="summary-value" id="sum-name">-</div>
-          </div>
           <div class="summary-item">
             <div class="summary-label">पहला वजन</div>
             <div class="summary-value" id="sum-ref">-</div>
@@ -756,6 +673,10 @@
           <div class="summary-item">
             <div class="summary-label">आपका वजन</div>
             <div class="summary-value" id="sum-target">-</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-label">रेट/ग्राम</div>
+            <div class="summary-value" id="sum-rate">-</div>
           </div>
         </div>
 
@@ -783,6 +704,7 @@
           <span>📝 नया सामान जोड़ें</span>
           <span class="item-count" id="item-count" style="display:none">0 आइटम</span>
         </div>
+
         <div class="add-form">
           <div class="form-row full">
             <div class="form-group">
@@ -832,6 +754,7 @@
         </div>
 
         <div class="product-list" id="plist"></div>
+
         <div class="total-bar hidden" id="total-bar">
           <div>
             <div class="total-label">कुल देय राशि</div>
@@ -866,62 +789,41 @@
     let refUnit = 'g';
     let targetUnit = 'g';
 
-    function setUnit(type, unit) {
-      const group = type === 'ref' ? document.querySelector('#s1 .unit-group') : 
-                                   document.querySelector('#s2 .unit-group');
-      group.querySelectorAll('.unit-btn').forEach(b => b.classList.remove('active'));
-      event.target.classList.add('active');
+    function setUnit(type, unit, btn) {
+      // Get the parent group
+      const group = btn.parentElement;
       
-      if(type === 'ref') refUnit = unit;
-      else targetUnit = unit;
+      // Remove active class from all buttons in this group
+      group.querySelectorAll('.unit-btn').forEach(b => b.classList.remove('active'));
+      
+      // Add active class to clicked button
+      btn.classList.add('active');
+      
+      // Update the unit variable
+      if(type === 'ref') {
+        refUnit = unit;
+      } else {
+        targetUnit = unit;
+      }
     }
 
     // Validation
-    document.getElementById('ref-weight').addEventListener('input', function() {
-      checkStep1();
-    });
-        document.getElementById('ref-price').addEventListener('input', function() {
-      checkStep1();
-    });
+    document.getElementById('ref-weight').addEventListener('input', checkInputs);
+    document.getElementById('ref-price').addEventListener('input', checkInputs);
+    document.getElementById('target-weight').addEventListener('input', checkInputs);
 
-    function checkStep1() {
+    function checkInputs() {
       const w = document.getElementById('ref-weight').value;
       const p = document.getElementById('ref-price').value;
-      document.getElementById('btn1').disabled = !w || w <= 0 || !p || p <= 0;
-    }
-    
-    document.getElementById('target-weight').addEventListener('input', function() {
-      document.getElementById('btn2').disabled = !this.value || this.value <= 0;
-    });
-
-    function step2() {
-      const w = parseFloat(document.getElementById('ref-weight').value);
-      const p = parseFloat(document.getElementById('ref-price').value);
-      
-      if(!w || w <= 0 || !p || p <= 0) {
-        alert('कृपया सही वजन और भाव डालें');
-        return;
-      }
-      
-      document.getElementById('s1').classList.add('hidden');
-      document.getElementById('s2').classList.remove('hidden');
-      document.getElementById('d1').classList.replace('active', 'done');
-      document.getElementById('d2').classList.add('active');
-      document.getElementById('l1').classList.add('done');
-      document.getElementById('target-weight').focus();
+      const t = document.getElementById('target-weight').value;
+      document.getElementById('calc-btn').disabled = !w || w <= 0 || !p || p <= 0 || !t || t <= 0;
     }
 
-    function calculate() {
-      const itemName = document.getElementById('item-name').value.trim() || 'सामान';
+    function calculateSingle() {
       const refWeight = parseFloat(document.getElementById('ref-weight').value);
       const refPrice = parseFloat(document.getElementById('ref-price').value);
       const targetWeight = parseFloat(document.getElementById('target-weight').value);
       
-      if(!targetWeight || targetWeight <= 0) {
-        alert('कृपया वजन डालें');
-        return;
-      }
-
       // Convert to grams
       const refGrams = refUnit === 'kg' ? refWeight * 1000 : refWeight;
       const targetGrams = targetUnit === 'kg' ? targetWeight * 1000 : targetWeight;
@@ -929,12 +831,13 @@
       // Calculate with 2 decimal precision
       const ratePerGram = parseFloat((refPrice / refGrams).toFixed(4));
       const finalAmount = parseFloat((targetGrams * ratePerGram).toFixed(2));
+
       // Display
       document.getElementById('final-amount').textContent = '₹' + finalAmount.toFixed(2);
-      document.getElementById('sum-name').textContent = itemName;
       document.getElementById('sum-ref').textContent = refWeight.toFixed(2) + ' ' + (refUnit === 'g' ? 'ग्राम' : 'किलो');
       document.getElementById('sum-price').textContent = '₹' + refPrice.toFixed(2);
       document.getElementById('sum-target').textContent = targetWeight.toFixed(2) + ' ' + (targetUnit === 'g' ? 'ग्राम' : 'किलो');
+      document.getElementById('sum-rate').textContent = '₹' + ratePerGram.toFixed(4);
 
       // Calculation steps
       document.getElementById('calc1').innerHTML = 
@@ -946,43 +849,37 @@
       document.getElementById('calc4').innerHTML = 
         `✅ कुल देने हैं: ₹${finalAmount.toFixed(2)}`;
 
-      document.getElementById('s2').classList.add('hidden');
       document.getElementById('result-card').classList.remove('hidden');
-      document.getElementById('d2').classList.replace('active', 'done');
-      document.getElementById('d3').classList.add('active');
-      document.getElementById('l2').classList.add('done');
+      document.getElementById('result-card').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
 
     function resetSingle() {
-      document.getElementById('item-name').value = '';
       document.getElementById('ref-weight').value = '';
       document.getElementById('ref-price').value = '';
       document.getElementById('target-weight').value = '';
-      
-      document.getElementById('s1').classList.remove('hidden');
-      document.getElementById('s2').classList.add('hidden');
       document.getElementById('result-card').classList.add('hidden');
+      document.getElementById('calc-btn').disabled = true;
       
-      document.getElementById('d1').className = 'step-dot active';
-      document.getElementById('d2').className = 'step-dot';
-      document.getElementById('d3').className = 'step-dot';
-      document.getElementById('l1').className = 'step-line';
-      document.getElementById('l2').className = 'step-line';
+      // Reset ref unit group
+      const refGroup = document.getElementById('ref-unit-group');
+      refGroup.querySelectorAll('.unit-btn').forEach((b, i) => {
+        b.classList.toggle('active', i === 0);
+      });
       
-      document.getElementById('btn1').disabled = true;
-      document.getElementById('btn2').disabled = true;
-      
-      document.querySelectorAll('#s1 .unit-btn').forEach((b, i) => b.classList.toggle('active', i === 0));
-      document.querySelectorAll('#s2 .unit-btn').forEach((b, i) => b.classList.toggle('active', i === 0));
+      // Reset target unit group
+      const targetGroup = document.getElementById('target-unit-group');
+      targetGroup.querySelectorAll('.unit-btn').forEach((b, i) => {
+        b.classList.toggle('active', i === 0);
+      });
       
       refUnit = 'g';
       targetUnit = 'g';
-      document.getElementById('item-name').focus();
+      document.getElementById('ref-weight').focus();
     }
+
     function copyResult() {
       const text = `रेट प्रो - हिसाब\n` +
         `════════════════\n` +
-        `${document.getElementById('sum-name').textContent}\n` +
         `${document.getElementById('sum-ref').textContent} = ₹${document.getElementById('sum-price').textContent}\n` +
         `${document.getElementById('sum-target').textContent} = ${document.getElementById('final-amount').textContent}\n` +
         `════════════════`;
@@ -1027,7 +924,8 @@
       if(!weight || weight <= 0) {
         alert('⚠️ कृपया सही वजन डालें');
         document.getElementById('m-weight').focus();
-        return;      }
+        return;
+      }
       
       if(!price || price <= 0) {
         alert('⚠️ कृपया सही भाव डालें');
@@ -1076,7 +974,8 @@
     function renderItems() {
       const list = document.getElementById('plist');
       const totalBar = document.getElementById('total-bar');
-      const actions = document.getElementById('multi-actions');      const countBadge = document.getElementById('item-count');
+      const actions = document.getElementById('multi-actions');
+      const countBadge = document.getElementById('item-count');
 
       if(items.length === 0) {
         list.innerHTML = `
@@ -1126,6 +1025,7 @@
         renderItems();
       }
     }
+
     function copyTotal() {
       if(items.length === 0) return;
       const total = parseFloat(items.reduce((s, it) => s + it.totalPrice, 0).toFixed(2));
@@ -1172,3 +1072,4 @@
   </script>
 </body>
 </html>
+
