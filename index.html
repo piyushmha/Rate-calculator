@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>RatePro - मार्केट कैलकुलेटर</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f8fafc;
+            --bg-pattern: #eef2ff;
+            --card: #ffffff;
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --accent: #10b981;
+            --text-dark: #0f172a;
+            --text-mid: #475569;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --shadow: 0 6px 24px rgba(0,0,0,0.06);
+            --shadow-hover: 0 8px 28px rgba(79, 70, 229, 0.15);
+            --focus-ring: 0 0 0 4px rgba(79, 70, 229, 0.12);
+            --radius: 18px;
+            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background: linear-gradient(135deg, var(--bg) 0%, var(--bg-pattern) 100%);
+            color: var(--text-dark);
+            min-height: 100vh;
+            padding: 20px 16px 40px;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 460px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 28px;
+            animation: fadeDown 0.6s ease both;
+        }
+        .logo {
+            display: inline-flex;            align-items: center;
+            gap: 10px;
+            margin-bottom: 6px;
+        }
+        .logo-icon {
+            width: 44px; height: 44px;
+            background: linear-gradient(135deg, var(--primary), #8b5cf6);
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 22px; color: white;
+            box-shadow: 0 4px 12px rgba(79,70,229,0.25);
+        }
+        h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 24px; font-weight: 800;
+            color: var(--text-dark);
+            letter-spacing: -0.5px;
+        }
+        .subtitle {
+            color: var(--text-mid);
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 24px;
+            margin-bottom: 18px;
+            border: 1px solid var(--border);
+            animation: fadeUp 0.5s ease both;
+            transition: var(--transition);
+        }
+        .card:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); }
+        .card.step-2 { animation-delay: 0.1s; }
+        .card.result { 
+            background: linear-gradient(135deg, #f0f9ff 0%, #f0fdf4 100%);
+            border: 2px solid #bfdbfe;
+            text-align: center;
+            padding: 28px 20px;
+        }
+
+        .card-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 18px; font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 18px;
+            display: flex; align-items: center; gap: 8px;        }
+        .card-title span { font-size: 20px; }
+
+        /* Form Elements */
+        .form-row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+            align-items: flex-end;
+        }
+        .input-group {
+            flex: 1;
+        }
+        .input-group label {
+            display: block;
+            font-size: 13px; font-weight: 600;
+            color: var(--text-mid);
+            margin-bottom: 8px;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 14px 16px;
+            font-family: 'Inter', sans-serif;
+            font-size: 18px; font-weight: 600;
+            color: var(--text-dark);
+            background: #f8fafc;
+            border: 2px solid var(--border);
+            border-radius: 14px;
+            outline: none;
+            transition: var(--transition);
+            -moz-appearance: textfield;
+        }
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        input[type="number"]:focus {
+            border-color: var(--primary);
+            background: #fff;
+            box-shadow: var(--focus-ring);
+        }
+
+        /* Unit Toggle */
+        .unit-toggle {
+            display: flex;
+            background: #f1f5f9;
+            border-radius: 12px;
+            padding: 4px;
+            height: 48px;
+        }
+        .unit-btn {
+            flex: 1;            border: none; background: transparent;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px; font-weight: 600;
+            color: var(--text-mid);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .unit-btn.active {
+            background: #fff;
+            color: var(--primary);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        /* Buttons */
+        .btn {
+            width: 100%;
+            padding: 16px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px; font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn:hover:not(:disabled) {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+        .btn:active:not(:disabled) { transform: translateY(0); }
+        .btn:disabled {
+            background: #cbd5e1;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        .btn.secondary {
+            background: transparent;
+            color: var(--text-mid);
+            border: 2px solid var(--border);
+            margin-top: 12px;
+        }
+        .btn.secondary:hover:not(:disabled) {
+            background: #f8fafc;            border-color: #cbd5e1;
+        }
+
+        /* Result */
+        .result-label { font-size: 15px; color: var(--text-mid); font-weight: 500; margin-bottom: 8px; }
+        .result-amount {
+            font-family: 'Poppins', sans-serif;
+            font-size: 42px; font-weight: 900;
+            background: linear-gradient(135deg, var(--primary), #7c3aed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+        .result-breakdown {
+            margin-top: 12px;
+            font-size: 14px; color: var(--text-light);
+            background: rgba(255,255,255,0.7);
+            padding: 10px 14px; border-radius: 12px;
+            display: inline-block;
+        }
+        .result-breakdown strong { color: var(--text-dark); }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: var(--text-light);
+            font-size: 14px; font-weight: 500;
+            animation: fadeUp 0.6s ease both;
+            animation-delay: 0.3s;
+        }
+        footer .brand { color: var(--primary); font-weight: 700; }
+        footer .heart { color: #ef4444; display: inline-block; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+
+        /* Animations */
+        @keyframes fadeDown { from { opacity: 0; transform: translateY(-15px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Utility */
+        .hidden { display: none !important; }
+        .error { color: #ef4444; font-size: 12px; margin-top: 6px; font-weight: 600; display: none; }
+        .shake { animation: shake 0.4s ease; }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+
+        /* Responsive */
+        @media (max-width: 380px) {
+            .card { padding: 20px 18px; }
+            .result-amount { font-size: 36px; }            .form-row { flex-direction: column; gap: 14px; }
+            .unit-toggle { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div class="logo">
+            <div class="logo-icon">⚖️</div>
+            <h1>RatePro</h1>
+        </div>
+        <p class="subtitle">मार्केट रेट कैलकुलेटर — तेज़, सटीक, साफ़</p>
+    </header>
+
+    <!-- Step 1: Base Rate -->
+    <div class="card" id="step1">
+        <div class="card-title"><span>🏷️</span> बेस रेट सेट करें</div>
+        
+        <div class="form-row">
+            <div class="input-group">
+                <label>वजन डालें</label>
+                <input type="number" id="baseWeight" placeholder="जैसे: 300" inputmode="decimal" oninput="validateStep1()">
+            </div>
+            <div class="input-group" style="max-width: 130px;">
+                <label>यूनिट</label>
+                <div class="unit-toggle" id="baseUnitToggle">
+                    <button class="unit-btn active" data-val="g" onclick="toggleUnit(this, 'base')">ग्राम</button>
+                    <button class="unit-btn" data-val="kg" onclick="toggleUnit(this, 'base')">किलो</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="input-group">
+                <label>कीमत (₹ में)</label>
+                <input type="number" id="basePrice" placeholder="जैसे: 50" inputmode="decimal" oninput="validateStep1()">
+            </div>
+        </div>
+
+        <div class="error" id="err1">⚠️ कृपया वजन और कीमत दोनों सही डालें</div>
+        <button class="btn" id="btn1" onclick="goToStep2()" disabled>✅ रेट सेट करें & आगे बढ़ें</button>
+    </div>
+
+    <!-- Step 2: Target Weight -->
+    <div class="card step-2 hidden" id="step2">
+        <div class="card-title"><span>📦</span> कितना लेना है?</div>
+        
+        <div class="form-row">            <div class="input-group">
+                <label>वांछित वजन डालें</label>
+                <input type="number" id="targetWeight" placeholder="जैसे: 700" inputmode="decimal" oninput="validateStep2()">
+            </div>
+            <div class="input-group" style="max-width: 130px;">
+                <label>यूनिट</label>
+                <div class="unit-toggle" id="targetUnitToggle">
+                    <button class="unit-btn active" data-val="g" onclick="toggleUnit(this, 'target')">ग्राम</button>
+                    <button class="unit-btn" data-val="kg" onclick="toggleUnit(this, 'target')">किलो</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="error" id="err2">⚠️ कृपया सही वजन डालें</div>
+        <button class="btn" id="btn2" onclick="calculateResult()" disabled>💰 हिसाब करें</button>
+        <button class="btn secondary" onclick="resetAll()">🔄 नया हिसाब शुरू करें</button>
+    </div>
+
+    <!-- Result -->
+    <div class="card result hidden" id="resultCard">
+        <div class="result-label">💳 आपको पे करना होगा</div>
+        <div class="result-amount" id="finalAmount">₹0</div>
+        <div class="result-breakdown" id="breakdown"></div>
+        <button class="btn" style="margin-top: 20px; background: var(--accent);" onclick="copyResult()">📋 रिजल्ट कॉपी करें</button>
+        <button class="btn secondary" onclick="resetAll()">🔄 नया कैलकुलेशन</button>
+    </div>
+
+    <footer>
+        Powered by <span class="brand">Piyuneel</span> <span class="heart">❤️</span>
+    </footer>
+</div>
+
+<script>
+    // State
+    let state = {
+        baseUnit: 'g',
+        targetUnit: 'g',
+        baseWeightInGrams: 0,
+        pricePerGram: 0
+    };
+
+    // Toggle Unit Buttons
+    function toggleUnit(btn, type) {
+        const toggle = btn.parentElement;
+        toggle.querySelectorAll('.unit-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        if (type === 'base') state.baseUnit = btn.dataset.val;
+        else state.targetUnit = btn.dataset.val;
+    }
+    // Validation & Button States
+    function validateStep1() {
+        const w = parseFloat(document.getElementById('baseWeight').value);
+        const p = parseFloat(document.getElementById('basePrice').value);
+        const btn = document.getElementById('btn1');
+        const err = document.getElementById('err1');
+        
+        btn.disabled = !(w > 0 && p > 0);
+        err.style.display = 'none';
+        if (btn.disabled) return;
+    }
+
+    function validateStep2() {
+        const w = parseFloat(document.getElementById('targetWeight').value);
+        const btn = document.getElementById('btn2');
+        const err = document.getElementById('err2');
+        
+        btn.disabled = !(w > 0);
+        err.style.display = 'none';
+    }
+
+    // Step 1 -> Step 2
+    function goToStep2() {
+        const w = parseFloat(document.getElementById('baseWeight').value);
+        const p = parseFloat(document.getElementById('basePrice').value);
+        const err = document.getElementById('err1');
+
+        if (!w || !p) {
+            err.style.display = 'block';
+            err.parentElement.classList.add('shake');
+            setTimeout(() => err.parentElement.classList.remove('shake'), 400);
+            return;
+        }
+
+        // Convert to grams
+        state.baseWeightInGrams = state.baseUnit === 'kg' ? w * 1000 : w;
+        state.pricePerGram = p / state.baseWeightInGrams;
+
+        // UI Transition
+        document.getElementById('step1').style.opacity = '0.6';
+        document.getElementById('step2').classList.remove('hidden');
+        setTimeout(() => {
+            document.getElementById('step2').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            document.getElementById('targetWeight').focus();
+        }, 100);
+    }
+
+    // Calculate Final Result
+    function calculateResult() {        const w = parseFloat(document.getElementById('targetWeight').value);
+        const err = document.getElementById('err2');
+
+        if (!w) {
+            err.style.display = 'block';
+            err.parentElement.classList.add('shake');
+            setTimeout(() => err.parentElement.classList.remove('shake'), 400);
+            return;
+        }
+
+        const targetGrams = state.targetUnit === 'kg' ? w * 1000 : w;
+        const finalAmt = Math.round(targetGrams * state.pricePerGram);
+
+        // Show Result
+        document.getElementById('finalAmount').textContent = '₹' + formatINR(finalAmt);
+        document.getElementById('breakdown').innerHTML = `
+            <strong>${w}${state.targetUnit}</strong> × 
+            <strong>₹${formatINR(state.pricePerGram.toFixed(3))}/g</strong> = 
+            <strong>₹${formatINR(finalAmt)}</strong>
+        `;
+
+        document.getElementById('resultCard').classList.remove('hidden');
+        setTimeout(() => {
+            document.getElementById('resultCard').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 100);
+    }
+
+    // Reset All
+    function resetAll() {
+        document.getElementById('baseWeight').value = '';
+        document.getElementById('basePrice').value = '';
+        document.getElementById('targetWeight').value = '';
+        document.getElementById('step1').style.opacity = '1';
+        document.getElementById('step2').classList.add('hidden');
+        document.getElementById('resultCard').classList.add('hidden');
+        document.getElementById('btn1').disabled = true;
+        document.getElementById('btn2').disabled = true;
+        document.querySelectorAll('.error').forEach(e => e.style.display = 'none');
+        
+        // Reset units to default
+        document.querySelectorAll('#baseUnitToggle .unit-btn, #targetUnitToggle .unit-btn').forEach(b => {
+            b.classList.toggle('active', b.dataset.val === 'g');
+        });
+        state.baseUnit = 'g'; state.targetUnit = 'g';
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Copy Result
+    function copyResult() {        const text = document.getElementById('finalAmount').textContent + ' - RatePro कैलकुलेशन';
+        navigator.clipboard.writeText(text).then(() => {
+            showToast('✅ रिजल्ट कॉपी हो गया!');
+        });
+    }
+
+    // Toast
+    function showToast(msg) {
+        let t = document.createElement('div');
+        t.style.cssText = `
+            position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(20px);
+            background: #0f172a; color: #fff; padding: 12px 20px; border-radius: 12px;
+            font-family: Inter, sans-serif; font-weight: 600; font-size: 14px; z-index: 999;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2); transition: all 0.3s ease; opacity: 0;
+        `;
+        t.textContent = msg;
+        document.body.appendChild(t);
+        setTimeout(() => { t.style.opacity = '1'; t.style.transform = 'translateX(-50%) translateY(0)'; }, 10);
+        setTimeout(() => { t.style.opacity = '0'; t.style.transform = 'translateX(-50%) translateY(20px)'; }, 2000);
+        setTimeout(() => t.remove(), 2300);
+    }
+
+    // Format Currency
+    function formatINR(num) {
+        return Number(num).toLocaleString('en-IN');
+    }
+
+    // Auto-focus first input on load
+    window.addEventListener('load', () => {
+        document.getElementById('baseWeight').focus();
+    });
+</script>
+
+</body>
+</html>
